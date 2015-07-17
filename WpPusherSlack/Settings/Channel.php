@@ -25,7 +25,7 @@ class Channel implements Setting
     {
         $slackSettings = get_option('wppusher_slack');
 
-        $url = isset($slackSettings['wppusher-slack-channel'])
+        $channel = isset($slackSettings['wppusher-slack-channel'])
             ? $slackSettings['wppusher-slack-channel']
             : null;
 

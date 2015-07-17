@@ -4,6 +4,11 @@ namespace WpPusherSlack;
 use WpPusherSlack\Settings\SlackbotUrl;
 use WpPusherSlack\Settings\Channel;
 use WpPusherSlack\Settings\EnableNotifications;
+use WpPusherSlack\Notifications\Notifier;
+use WpPusherSlack\Notifications\PluginWasInstalled;
+use WpPusherSlack\Notifications\ThemeWasInstalled;
+use WpPusherSlack\Notifications\PluginWasUpdated;
+use WpPusherSlack\Notifications\ThemeWasUpdated;
 
 /**
  * Class Plugin
@@ -24,7 +29,26 @@ class Plugin
         );
 
         // Register settings
-        add_action('admin_init', array($this, 'register'));
+        add_action('admin_init', array($this, 'registerSettings'));
+
+        // Register notifications
+        $notifier = new Notifier;
+        add_action('wppusher_plugin_was_installed', function($file) use ($notifier) {
+            $notification = PluginWasInstalled::fromFile($file);
+            $notifier->notify($notification);
+        });
+        add_action('wppusher_theme_was_installed', function($stylesheet) use ($notifier) {
+            $notification = ThemeWasInstalled::fromStylesheet($stylesheet);
+            $notifier->notify($notification);
+        });
+        add_action('wppusher_plugin_was_updated', function($file) use ($notifier) {
+            $notification = PluginWasUpdated::fromFile($file);
+            $notifier->notify($notification);
+        });
+        add_action('wppusher_theme_was_updated', function($stylesheet) use ($notifier) {
+            $notification = ThemeWasUpdated::fromStylesheet($stylesheet);
+            $notifier->notify($notification);
+        });
     }
 
     /**
@@ -51,7 +75,7 @@ class Plugin
     /**
      * Register the settings.
      */
-    public function register()
+    public function registerSettings()
     {
         $sanitizer = array($this, 'sanitize');
 
