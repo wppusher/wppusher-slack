@@ -10,6 +10,11 @@
  * License: GNU GENERAL PUBLIC LICENSE
  */
 
+// If this file is called directly, abort.
+if ( ! defined('WPINC')) {
+    die;
+}
+
 require __DIR__ . '/autoload.php';
 
 use WpPusherSlack\Plugin;

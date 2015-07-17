@@ -1,6 +1,9 @@
 <?php
 
 namespace WpPusherSlack;
+use WpPusherSlack\Settings\SlackbotUrl;
+use WpPusherSlack\Settings\Channel;
+use WpPusherSlack\Settings\EnableNotifications;
 
 /**
  * Class Plugin
@@ -19,6 +22,9 @@ class Plugin
             is_multisite() ? 'network_admin_menu' : 'admin_menu',
             array($this, 'adminMenu')
         );
+
+        // Register settings
+        add_action('admin_init', array($this, 'register'));
     }
 
     /**
@@ -40,5 +46,38 @@ class Plugin
             'wppusher-slack',
             $slackSettingsView
         );
+    }
+
+    /**
+     * Register the settings.
+     */
+    public function register()
+    {
+        $sanitizer = array($this, 'sanitize');
+
+        $slackbotUrl = new SlackbotUrl;
+        $channel = new Channel;
+        $enabled = new EnableNotifications;
+
+        register_setting('wppusher_slack_group', 'wppusher_slack', $sanitizer);
+
+        add_settings_section('wppusher-slack', 'Slack Notifications', '', 'wppusher-slack');
+
+        $slackbotUrl->register();
+        $channel->register();
+        $enabled->register();
+    }
+
+    /**
+     * Sanitize settings values.
+     *
+     * @param $input
+     * @return array
+     */
+    public function sanitize($input)
+    {
+        return array_map(function($value) {
+            return sanitize_text_field(strip_tags(stripslashes($value)));
+        }, $input);
     }
 }
