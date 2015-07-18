@@ -25,7 +25,8 @@ class Plugin
         // the network admin.
         add_action(
             is_multisite() ? 'network_admin_menu' : 'admin_menu',
-            array($this, 'adminMenu')
+            array($this, 'adminMenu'),
+            20 // make sure priority is lower than the WP Pusher plugin
         );
 
         // Register settings
