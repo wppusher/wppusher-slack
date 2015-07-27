@@ -6,11 +6,11 @@ class PluginWasUpdated implements Notification
 {
     protected $file;
 
-    public static function fromFile($file)
+    public static function fromFile(\Pusher\Actions\PluginWasUpdated $action)
     {
         $notification = new static;
 
-        $notification->file = $file;
+        $notification->file = $action->plugin->file;
 
         return $notification;
     }

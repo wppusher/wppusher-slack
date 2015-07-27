@@ -6,11 +6,11 @@ class ThemeWasUpdated implements Notification
 {
     private $stylesheet;
 
-    public static function fromStylesheet($stylesheet)
+    public static function fromStylesheet(\Pusher\Actions\ThemeWasUpdated $action)
     {
         $notification = new static;
 
-        $notification->stylesheet = $stylesheet;
+        $notification->stylesheet = $action->theme->stylesheet;
 
         return $notification;
     }
