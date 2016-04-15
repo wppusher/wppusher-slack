@@ -3,8 +3,8 @@
 /**
  * Plugin Name: WP Pusher Slack Notifications
  * Plugin URI: https://github.com/wppusher/wppusher-slack
- * Description: Get a notification in Slack every time something is deployed.
- * Version: 0.0.1
+ * Description: Get a notification in Slack every time something is deployed from Git with WP Pusher.
+ * Version: 1.0.0
  * Author: WP Pusher
  * Author URI: http://wppusher.com
  * License: GNU GENERAL PUBLIC LICENSE
