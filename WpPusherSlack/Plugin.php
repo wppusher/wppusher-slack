@@ -10,6 +10,9 @@ use WpPusherSlack\Notifications\ThemeWasInstalled;
 use WpPusherSlack\Notifications\PluginWasUpdated;
 use WpPusherSlack\Notifications\ThemeWasUpdated;
 
+include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+include_once(ABSPATH . 'wp-admin/includes/template.php');
+
 /**
  * Class Plugin
  * @package WpPusherSlack
@@ -21,6 +24,36 @@ class Plugin
      */
     public function init()
     {
+        // Find the WP Pusher file in the list of plugins
+        $wppusherFile = array_reduce(array_keys(get_plugins()), function($result = null, $value) {
+            // If we found the file in an earlier iteration, we'll just move on
+            if ($result) {
+                return $result;
+            }
+
+            // Check if current position contains the name of the WP Pusher file
+            return strstr($value, '/wppusher.php') ? $value : null;
+        });
+
+        // If we don't have WP Pusher available, then that's an issue!
+        if ( ! $wppusherFile) {
+            add_action('admin_notices', function() {
+                $message = __('The WP Pusher Slack Extension can not be used if WP Pusher is not installed. Please download it <a href="https://wppusher.com/#pricing">here</a>.', 'wppusher-slack');
+                echo '<div class="notice notice-error is-dismissible"><p>' . $message . '</p></div>';
+            });
+
+            // Abort
+            return;
+        }
+
+        // Also, it needs to be activated...
+        if (is_plugin_inactive($wppusherFile)) {
+            add_action('admin_notices', function() {
+                $message = __('The WP Pusher Slack Extension can not be used if WP Pusher is not activated.', 'wppusher-slack');
+                echo '<div class="notice notice-error is-dismissible"><p>' . $message . '</p></div>';
+            });
+        }
+
         // Figure out if we are working on the site admin panel or
         // the network admin.
         add_action(
