@@ -5,7 +5,7 @@
 
     <?php settings_errors(); ?>
 
-    <form method="POST" action="options.php">
+    <form method="POST" action="<?php echo admin_url(); ?>options.php">
         <?php settings_fields('wppusher_slack_group'); ?>
         <?php do_settings_sections('wppusher-slack'); ?>
         <?php submit_button(); ?>
