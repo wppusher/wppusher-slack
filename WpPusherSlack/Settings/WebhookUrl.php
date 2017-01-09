@@ -2,7 +2,7 @@
 
 namespace WpPusherSlack\Settings;
 
-class Channel implements Setting
+class WebhookUrl implements Setting
 {
     /**
      * Register the setting.
@@ -10,8 +10,8 @@ class Channel implements Setting
     public function register()
     {
         add_settings_field(
-            'wppusher-slack-channel',
-            'Channel',
+            'wppusher-slack-post-url',
+            'Webhook URL',
             array($this, 'display'),
             'wppusher-slack',
             'wppusher-slack'
@@ -25,10 +25,10 @@ class Channel implements Setting
     {
         $slackSettings = get_option('wppusher_slack');
 
-        $channel = isset($slackSettings['wppusher-slack-channel'])
-            ? $slackSettings['wppusher-slack-channel']
+        $url = isset($slackSettings['wppusher-slack-post-url'])
+            ? $slackSettings['wppusher-slack-post-url']
             : null;
 
-        return require __DIR__ . '/../../views/partials/channel.php';
+        return require __DIR__ . '/../../views/partials/post-url.php';
     }
 }

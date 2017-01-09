@@ -4,13 +4,11 @@ namespace WpPusherSlack\Notifications;
 
 class Notifier
 {
-    public function notify(Notification $notification)
+    public function notify(Notification $notification, $force)
     {
+
         $slackSettings = get_option('wppusher_slack');
 
-        $channel = isset($slackSettings['wppusher-slack-channel'])
-            ? $slackSettings['wppusher-slack-channel']
-            : null;
         $enabled = isset($slackSettings['wppusher-slack-enabled'])
             ? $slackSettings['wppusher-slack-enabled']
             : false;
@@ -18,15 +16,13 @@ class Notifier
             ? $slackSettings['wppusher-slack-post-url']
             : null;
 
-        if ( ! $enabled) {
+        if ( ! $enabled && ! $force) {
             return null;
         }
 
-        // Add channel, including hashtag, to url.
-        $fullUrl = add_query_arg(array('channel' => '%23' . $channel), $url);
-
-        $result = wp_remote_post($fullUrl, array(
-            'body' => $notification->getMessage()
+        $result = wp_remote_post($url, array(
+            'body' => json_encode( array( 'text' => $notification->getMessage() ) )
         ));
+
     }
 }
