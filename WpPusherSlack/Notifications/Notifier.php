@@ -4,7 +4,7 @@ namespace WpPusherSlack\Notifications;
 
 class Notifier
 {
-    public function notify(Notification $notification, $force)
+    public function notify(Notification $notification )
     {
 
         $slackSettings = get_option('wppusher_slack');
@@ -16,7 +16,7 @@ class Notifier
             ? $slackSettings['wppusher-slack-post-url']
             : null;
 
-        if ( ! $enabled && ! $force) {
+        if ( ! $enabled ) {
             return null;
         }
 

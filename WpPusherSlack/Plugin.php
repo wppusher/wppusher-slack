@@ -8,9 +8,6 @@ use WpPusherSlack\Notifications\PluginWasInstalled;
 use WpPusherSlack\Notifications\ThemeWasInstalled;
 use WpPusherSlack\Notifications\PluginWasUpdated;
 use WpPusherSlack\Notifications\ThemeWasUpdated;
-use WpPusherSlack\Notifications\NotificationsWereEnabled;
-use WpPusherSlack\Notifications\NotificationsWereDisabled;
-
 
 include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 include_once(ABSPATH . 'wp-admin/includes/template.php');
@@ -85,26 +82,6 @@ class Plugin
             $notification = ThemeWasUpdated::fromStylesheet($stylesheet);
             $notifier->notify($notification);
         });
-        add_action('update_option_wppusher_slack', function( $old, $new ) use ($notifier) {
-
-          //Notifications were enabled
-          if( !$old['wppusher-slack-enabled'] && $new['wppusher-slack-enabled'] === 'on' ) {
-            $notification = NotificationsWereEnabled::fromUser( wp_get_current_user() );
-            $notifier->notify($notification);
-          }
-
-          //Notifications were disabled
-          if( $old['wppusher-slack-enabled'] === 'on' && !$new['wppusher-slack-enabled'] ) {
-            $notification = NotificationsWereDisabled::fromUser( wp_get_current_user() );
-            $notifier->notify($notification, true);
-          }
-
-          //Webhook URL was changed
-          if( false ) {
-            //how to do this? need to send to a different url
-          }
-
-        }, 10, 2);
 
     }
 
