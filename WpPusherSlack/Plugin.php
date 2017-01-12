@@ -1,6 +1,7 @@
 <?php
 
 namespace WpPusherSlack;
+use WpPusherSlack\Settings\ServiceType;
 use WpPusherSlack\Settings\WebhookUrl;
 use WpPusherSlack\Settings\EnableNotifications;
 use WpPusherSlack\Notifications\Notifier;
@@ -113,6 +114,7 @@ class Plugin
     {
         $sanitizer = array($this, 'sanitize');
 
+        $serviceType = new ServiceType;
         $webhookUrl = new WebhookUrl;
         $enabled = new EnableNotifications;
 
@@ -122,6 +124,7 @@ class Plugin
 
         $webhookUrl->register();
         $enabled->register();
+        $serviceType->register();
     }
 
     /**
