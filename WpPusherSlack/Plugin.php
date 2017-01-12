@@ -1,7 +1,8 @@
 <?php
 
 namespace WpPusherSlack;
-use WpPusherSlack\Settings\SlackbotUrl;
+use WpPusherSlack\Settings\ServiceType;
+use WpPusherSlack\Settings\PostUrl;
 use WpPusherSlack\Settings\Channel;
 use WpPusherSlack\Settings\EnableNotifications;
 use WpPusherSlack\Notifications\Notifier;
@@ -83,6 +84,7 @@ class Plugin
             $notification = ThemeWasUpdated::fromStylesheet($stylesheet);
             $notifier->notify($notification);
         });
+
     }
 
     /**
@@ -113,7 +115,8 @@ class Plugin
     {
         $sanitizer = array($this, 'sanitize');
 
-        $slackbotUrl = new SlackbotUrl;
+        $serviceType = new ServiceType;
+        $postUrl = new PostUrl;
         $channel = new Channel;
         $enabled = new EnableNotifications;
 
@@ -121,9 +124,10 @@ class Plugin
 
         add_settings_section('wppusher-slack', 'Slack Notifications', '', 'wppusher-slack');
 
-        $slackbotUrl->register();
         $channel->register();
+        $postUrl->register();
         $enabled->register();
+        $serviceType->register();
     }
 
     /**
@@ -134,8 +138,8 @@ class Plugin
      */
     public function sanitize($input)
     {
-        return array_map(function($value) {
-            return sanitize_text_field(strip_tags(stripslashes($value)));
-        }, $input);
+      return array_map(function($value) {
+        return sanitize_text_field(strip_tags(stripslashes($value)));
+      }, $input);
     }
 }

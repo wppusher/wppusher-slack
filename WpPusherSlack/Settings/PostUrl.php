@@ -2,7 +2,7 @@
 
 namespace WpPusherSlack\Settings;
 
-class SlackbotUrl implements Setting
+class PostUrl implements Setting
 {
     /**
      * Register the setting.
@@ -11,7 +11,7 @@ class SlackbotUrl implements Setting
     {
         add_settings_field(
             'wppusher-slack-post-url',
-            'Slackbot URL',
+            'Post URL',
             array($this, 'display'),
             'wppusher-slack',
             'wppusher-slack'

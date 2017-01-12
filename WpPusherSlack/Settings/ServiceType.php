@@ -2,7 +2,7 @@
 
 namespace WpPusherSlack\Settings;
 
-class Channel implements Setting
+class ServiceType implements Setting
 {
     /**
      * Register the setting.
@@ -10,8 +10,8 @@ class Channel implements Setting
     public function register()
     {
         add_settings_field(
-            'wppusher-slack-channel',
-            'Channel',
+            'wppusher-slack-service-type',
+            'Service Type',
             array($this, 'display'),
             'wppusher-slack',
             'wppusher-slack'
@@ -25,9 +25,10 @@ class Channel implements Setting
     {
         $slackSettings = get_option('wppusher_slack');
 
-        $channel = isset($slackSettings['wppusher-slack-channel'])
-            ? $slackSettings['wppusher-slack-channel']
+        $service_type = isset($slackSettings['wppusher-slack-service-type'])
+            ? $slackSettings['wppusher-slack-service-type']
             : null;
-        return require __DIR__ . '/../../views/partials/channel.php';
+
+        return require __DIR__ . '/../../views/partials/service-type.php';
     }
 }
