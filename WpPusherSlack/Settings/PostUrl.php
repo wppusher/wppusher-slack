@@ -2,7 +2,7 @@
 
 namespace WpPusherSlack\Settings;
 
-class WebhookUrl implements Setting
+class PostUrl implements Setting
 {
     /**
      * Register the setting.
@@ -11,7 +11,7 @@ class WebhookUrl implements Setting
     {
         add_settings_field(
             'wppusher-slack-post-url',
-            'Webhook URL',
+            'Post URL',
             array($this, 'display'),
             'wppusher-slack',
             'wppusher-slack'

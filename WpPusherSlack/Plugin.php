@@ -2,7 +2,7 @@
 
 namespace WpPusherSlack;
 use WpPusherSlack\Settings\ServiceType;
-use WpPusherSlack\Settings\WebhookUrl;
+use WpPusherSlack\Settings\PostUrl;
 use WpPusherSlack\Settings\EnableNotifications;
 use WpPusherSlack\Notifications\Notifier;
 use WpPusherSlack\Notifications\PluginWasInstalled;
@@ -115,14 +115,14 @@ class Plugin
         $sanitizer = array($this, 'sanitize');
 
         $serviceType = new ServiceType;
-        $webhookUrl = new WebhookUrl;
+        $postUrl = new PostUrl;
         $enabled = new EnableNotifications;
 
         register_setting('wppusher_slack_group', 'wppusher_slack', $sanitizer);
 
         add_settings_section('wppusher-slack', 'Slack Notifications', '', 'wppusher-slack');
 
-        $webhookUrl->register();
+        $postUrl->register();
         $enabled->register();
         $serviceType->register();
     }
