@@ -26,6 +26,11 @@ class Notifier
         $message = $notification->getMessage();
 
         if( $service_type === 'slackbot' ) {
+
+          $channel = isset($slackSettings['wppusher-slack-channel'])
+              ? $slackSettings['wppusher-slack-channel']
+              : false;
+
           $url = add_query_arg(array('channel' => '%23' . $channel), $url);
           $body = $message;
         }
