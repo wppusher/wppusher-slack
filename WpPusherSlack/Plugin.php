@@ -3,6 +3,7 @@
 namespace WpPusherSlack;
 use WpPusherSlack\Settings\ServiceType;
 use WpPusherSlack\Settings\PostUrl;
+use WpPusherSlack\Settings\Channel;
 use WpPusherSlack\Settings\EnableNotifications;
 use WpPusherSlack\Notifications\Notifier;
 use WpPusherSlack\Notifications\PluginWasInstalled;
@@ -116,12 +117,14 @@ class Plugin
 
         $serviceType = new ServiceType;
         $postUrl = new PostUrl;
+        $channel = new Channel;
         $enabled = new EnableNotifications;
 
         register_setting('wppusher_slack_group', 'wppusher_slack', $sanitizer);
 
         add_settings_section('wppusher-slack', 'Slack Notifications', '', 'wppusher-slack');
 
+        $channel->register();
         $postUrl->register();
         $enabled->register();
         $serviceType->register();
